@@ -1,0 +1,18 @@
+{
+  "name": "chillbackend",
+  "version": "1.0.0",
+  "description": "A backend for storing info from the Chill Malware bundle",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "author": "PaulIRL",
+  "license": "GPL-3.0-or-later",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^6.0.5",
+    "nodemon": "^2.0.12"
+  }
+}
