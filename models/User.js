@@ -14,6 +14,10 @@ const UserSchema = mongoose.Schema({
     type: Object,
     default: undefined,
   },
+  ransomInfo: {
+    type: Object,
+    default: undefined,
+  },
 });
 
 module.exports = mongoose.model("User", UserSchema);
